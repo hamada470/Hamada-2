@@ -22,6 +22,11 @@ const ADMIN_USER = {
     passwordHash: '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW' 
 };
 
+// الصفحة الرئيسية عشان تتجنب رسالة الخطأ
+app.get('/', (req, res) => {
+    res.send('<h1>أهلاً بك يا سندال</h1><p>السيرفر يعمل بكفاءة وجاهز تماماً.</p>');
+});
+
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     if (username === ADMIN_USER.username && await bcrypt.compare(password, ADMIN_USER.passwordHash)) {
@@ -40,7 +45,7 @@ function requireAuth(req, res, next) {
 }
 
 app.get('/dashboard', requireAuth, (req, res) => {
-    res.send('<h1>مرحباً بك في لوحة التحكم الآمنة</h1><p>تم الاتصال بنجاح.</p>');
+    res.send('<h1>مرحباً بك في لوحة التحكم الآمنة</h1>');
 });
 
 module.exports = app;
